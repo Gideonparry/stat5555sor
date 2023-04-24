@@ -16,6 +16,7 @@ knitr::opts_chunk$set(
 # stat5555sor
 
 <!-- badges: start -->
+[![R-CMD-check](https://github.com/Gideonparry/stat5555sor/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/Gideonparry/stat5555sor/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 The stat5555sor package is designed with the intent to find the strength of record for the last 3 NCAA basketball seasons(21-23). The user can decide which season they would like to look at and through our algorithm, they can see which teams were actually the strongest during those seasons.
@@ -29,13 +30,26 @@ You can install the development version of stat5555sor from [GitHub](https://git
 devtools::install_github("Gideonparry/stat5555sor")
 ```
 
-## Example
+## Date Frame Example
 
-This is a basic example which shows you how to solve a common problem:
+Before looking at the Data Frame, one should know that each row represents one game played during the selected season. In this case, it will be the 2022-2023 season.The variables are all explained below.
 
-```{r example}
-#library(stat5555sor)
-## basic example code
+```{r, echo = FALSE, include = FALSE}
+devtools::install_github("Gideonparry/stat5555sor", auth_token = "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", force = TRUE)
+devtools::load_all()
 ```
 
+```{r example}
+test <- get_combined_data(2023)
+head(test)
+```
 
+Variables:
+
+Date: The day the game was played\
+Away_team/Home_team: Name of teams playing in game\
+Away_NET/Home_NET: Rank of that team among all 358 Division I basketball teams\
+score_diff: Difference between Away_score and Home_score\
+site: location the game was played\
+neutral: refers to whether the game was played at the site of either team's home location or at a neutral site\
+Away_record/Home_record: The record for each home and away team for the season selected for each team in that game\
