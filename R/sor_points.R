@@ -36,7 +36,7 @@ sor_points <- function(score, opp_score, opp_net, number_of_teams,
                      home, neutral = FALSE) {
 
   ## loc is location modifier
-  if(home){
+  if(home == TRUE){
     loc <- 10 * neutral
   } else {
     loc <- 20 - 10 * neutral
