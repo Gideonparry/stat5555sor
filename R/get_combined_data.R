@@ -66,10 +66,11 @@ get_combined_data <- function(year) {
     # Join the kenpom_data_renamed with warrennolan_data to get the conference columns
     combined_data <- kenpom_data_renamed %>%
       left_join(warrennolan_data, by = c("Home_team" = "Team")) %>%
-      rename(Home_conference = Record) %>%
+      rename(Home_record = Record, home_NET = `NET Rank`) %>%
       left_join(warrennolan_data, by = c("Away_team" = "Team")) %>%
-      rename(Away_conference = Record) %>%
-      select(Date, Away_team, Away_score, Home_team, Home_score, score_diff, site, neutral, Home_conference, Away_conference)
+      rename(Away_record = Record, away_NET = `NET Rank`) %>%
+      select(Date, Away_team, Away_score, away_NET, Home_team, Home_score, home_NET, score_diff, site, neutral, Home_record, Away_record)
+
 
     return(combined_data)
   }
