@@ -2,18 +2,18 @@
 % Please edit documentation in R/match_names.R
 \name{match_names}
 \alias{match_names}
-\title{Matches names of teams proerly}
+\title{Matches names of teams properly}
 \usage{
 match_names(name, names_to_match)
 }
 \arguments{
-\item{names_to_match}{the name to match}
+\item{name}{one name}
 
-\item{names}{one name}
+\item{names_to_match}{the name to match}
 }
 \value{
 The matched names
 }
 \description{
-Matches names of teams proerly
+Matches names of teams properly
 }

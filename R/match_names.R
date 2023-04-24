@@ -1,8 +1,8 @@
-#' Matches names of teams proerly
+#' Matches names of teams properly
 #'
 #'
 #'
-#' @param names one name
+#' @param name one name
 #' @param names_to_match the name to match
 #'
 #' @returns The matched names

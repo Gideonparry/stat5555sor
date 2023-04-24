@@ -7,7 +7,7 @@
 parse_kenpom_row(row)
 }
 \arguments{
-\item{year}{the year to run obtain the kenmpom data}
+\item{row}{the row that will be formatted}
 }
 \value{
 Kenpom data of games played

@@ -7,6 +7,7 @@
 #' @returns combined data.
 #'
 #' @import dplyr
+#' @importFrom stats complete.cases
 
 
 get_combined_data <- function(year) {
