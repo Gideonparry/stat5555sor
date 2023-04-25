@@ -1,0 +1,21 @@
+#' @title Games played in 2023
+#'
+#' @description
+#' All D1 college basketball games played in 2023
+#'
+#' @format \describe{
+#'   \item{Date}{The date the game was played}
+#'   \item{Away_team}{The away team}
+#'   \item{Away_score}{The away team's score}
+#'   \item{away_net}{The away team's NET ranking}
+#'   \item{Home_team}{The home team}
+#'   \item{Home_score}{The home team's score}
+#'   \item{Home_net}{The home team's NET ranking}
+#'   \item{score_diff}{The home score minus the away score}
+#'   \item{site}{Where the game was played}
+#'   \item{neutral}{0 if not neutral, 1 if neutral}
+#'   \item{home_sor}{strenght of record points gained or lost for the home team}
+#'   \item{away_sor}{strenght of record points gained or lost for the away team}
+#' }
+#'
+"games_2023"
