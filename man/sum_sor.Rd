@@ -2,27 +2,18 @@
 % Please edit documentation in R/sum_sor.R
 \name{sum_sor}
 \alias{sum_sor}
-\title{Sums sor scores for each team.}
+\title{Sums sor for each team.}
 \usage{
-sum_sor(
-  home_team = combined_data$Home_team,
-  away_team = combined_data$Away_team,
-  home_sor = combined_data$home_sor,
-  away_sor = combined_data$away_sor
-)
+sum_sor(year, games_date)
 }
 \arguments{
-\item{home_team}{the home team in a game}
+\item{year}{The year to get the data from. Only works from 2021}
 
-\item{away_team}{the away team in a game}
-
-\item{home_sor}{the home team's sor in a game}
-
-\item{away_sor}{the away team's sor in a game}
+\item{games_date}{the cutoff date for the games played.}
 }
 \value{
-a dataframe with every team and their sor
+a data frame with every team and their sor
 }
 \description{
-Sums sor scores for each team.
+Sums sor for each team.
 }
