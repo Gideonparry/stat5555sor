@@ -15,7 +15,7 @@
 \item{Home_net}{The home team's NET ranking}
 \item{score_diff}{The home score minus the away score}
 \item{site}{Where the game was played}
-\itme{neutral}{0 if not neutral, 1 if neutral}
+\item{neutral}{0 if not neutral, 1 if neutral}
 \item{home_sor}{strenght of record points gained or lost for the home team}
 \item{away_sor}{strenght of record points gained or lost for the away team}
 }
