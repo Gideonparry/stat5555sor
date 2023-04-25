@@ -12,7 +12,7 @@ sum_sor <- function(combined_data){
   home_sor <- combined_data$home_sor
   away_sor <- combined_data$away_sor
 
-  # First we create an empty vector to store the sor scores
+  # Next we create an empty vector to store the sor scores
   num <- rep(0, length(unique(home_team)))
 
   # This for loop sums all of the home team sor scores
