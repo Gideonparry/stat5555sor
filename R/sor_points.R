@@ -14,7 +14,7 @@
 #' and losing to the worst team at home is a loss of 1.
 #'
 #' @param score The team's own score
-#' @param opp_socre The opposing team's score
+#' @param opp_score The opposing team's score
 #' @param opp_net The opposing team's NET ranking
 #' @param number_of_teams The number of teams in that college basketball season
 #' @param home TRUE if team is home team, FALSE if team is away team

@@ -9,6 +9,8 @@ sor_points(score, opp_score, opp_net, number_of_teams, home, neutral = FALSE)
 \arguments{
 \item{score}{The team's own score}
 
+\item{opp_score}{The opposing team's score}
+
 \item{opp_net}{The opposing team's NET ranking}
 
 \item{number_of_teams}{The number of teams in that college basketball season}
@@ -16,8 +18,6 @@ sor_points(score, opp_score, opp_net, number_of_teams, home, neutral = FALSE)
 \item{home}{TRUE if team is home team, FALSE if team is away team}
 
 \item{neutral}{TRUE if game is played in a neutral location, FALSE if not}
-
-\item{opp_socre}{The opposing team's score}
 }
 \value{
 The strength of record points gained or lost by the home team

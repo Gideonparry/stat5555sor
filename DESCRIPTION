@@ -2,13 +2,16 @@ Package: stat5555sor
 Title: What the Package Does (One Line, Title Case)
 Version: 0.0.0.9000
 Authors@R: 
-    person("First", "Last", , "first.last@example.com", role = c("aut", "cre"),
-           comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
-License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
-    license
+      c(person("Gavin", "Eddington", email = "Gavin.Eddington@gmail.com", 
+          role = c("aut", "cre")),
+        person("Gideon", "Parry"),
+        person("Jeff", "Sever"),
+        person("Trevor", "Zimmerman"))
+Description: The stat5555sor package is designed with the intent to find the strength of record for the last 3 NCAA basketball seasons(21-23). The user can decide which season they would like to look at and through our algorithm, they can see which teams were actually the strongest during those seasons.
+License: GPL (>= 3)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
+Imports: dplyr, rvest, magrittr, stringr, httr, xml2, stringdist
 RoxygenNote: 7.2.3
 Suggests: 
     testthat (>= 3.0.0)

@@ -2,7 +2,7 @@
 #'
 #'
 #'
-#' @param year the year to run obtain the kenmpom data
+#' @param row the row that will be formatted
 #'
 #' @returns Kenpom data of games played
 #'
