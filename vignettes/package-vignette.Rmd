@@ -17,32 +17,34 @@ knitr::opts_chunk$set(
 ```{r setup}
 library(stat5555sor)
 ```
+# Workflow
 ## Web scrape data and format
 
-The data is pulled from the two following websites, https://kenpom.com/cbbga23.txt and https://www.warrennolan.com/basketball/2023/net and then formatted into a more viewable data frame. We exported this function as there is a parameter of date, that the function will include all games up until that date. So, a user could find the sor score for half a season if they wanted. In this case, we chose the date of selection sunday.
+Everything starts with the sum_sor function, which will in turn call all the rest of the helper functions. It is not the only function exported though as some users may want to see the changes in data in between steps.
+
+To start off, the data is pulled from the two following websites, https://kenpom.com/cbbga23.txt and https://www.warrennolan.com/basketball/2023/net and then formatted into a more viewable data frame. This function was exported as there is a parameter of date that the function will include all games up until that date. So, a user could find the sor score for half a season if they wanted. In this example below, we chose the date of selection sunday for this year.
 
 ```{r}
 test <- get_combined_data(2023, "2023-03-12")
 head(test)
 ```
 
-What the get_combined_data function does is it will call the sor_points function, which is explained in the following section, twice for every row. The get_combined_data function will then create two new columns on the data frame for the change in sor for the home team and away team. This can be seen in the head(test) line of code above.
+
 
 ## sor_points function
 
-This is the function that contains the algorithm we created to find the change in sor score for one game. It was exported as well so that users have the ability to see the sor change for any specific game. As an example we will take the data from the first row of "test" and run the function to see the change in sor for Jackson State.
+This is the function that contains the algorithm we created to find the change in sor score for one game. It was exported as well so that users have the ability to see the sor change for any specific game. As an example we will take the data from the first row of the test dataset and run the function to see the change in sor for Jackson State.
 
 ```{r}
 sor_points(56, 65, 206, 363, FALSE, FALSE)
 ```
 
-## sum_sor function
+## sum_sor results
 
-The sum_sor function simply sums the away and home sor score changes for every specific team and then adds them together. It then creates a new data frame with two columns, the total strength of record score and the team name. It is sorted in descending order by the SOR score.
+Finally, the sum_sor function will sum up the sor changes for each row and each team. It will then create a new data frame with two columns, the team name and the total sor score. 
 
 ```{r}
-devtools::load_all()
-test_sor <- sum_sor(test)
+test_sor <- sum_sor(2023, "2023-03-12")
 head(test_sor)
 ```
 
