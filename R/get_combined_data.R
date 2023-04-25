@@ -8,7 +8,7 @@
 #'
 #'
 #' @param year The year to get the data from. Only works from 2021
-#' @param games_data the cutoff date for the games played.
+#' @param games_date the cutoff date for the games played.
 #'
 #' @returns combined data.
 #'

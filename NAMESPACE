@@ -2,6 +2,7 @@
 
 export(get_combined_data)
 export(sor_points)
+export(sum_sor)
 import(dplyr)
 import(httr)
 import(rvest)
@@ -9,4 +10,3 @@ import(stringdist)
 import(stringr)
 import(xml2)
 importFrom(magrittr,"%>%")
-importFrom(stats,complete.cases)
