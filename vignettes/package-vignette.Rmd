@@ -48,6 +48,50 @@ test_sor <- sum_sor(2023, "2023-03-12")
 head(test_sor)
 ```
 
+## Additional Package Uses
+
+If I wanted to look at the past seasons and make a visualization for their sor scores over that time period, here is how I could do it using this package (note that this is an example dataset that is included within the package already):
+
+```{r, eval=FALSE}
+## Getting data for each year
+year_2023 <- sum_sor(2023,"2023-03-12")
+year_2022 <- sum_sor(2022,"2022-03-13")
+year_2021 <- sum_sor(2021,"2021-03-14")
+
+## Adding year to data before combining
+year_2023$year <- rep(2023, nrow(year_2023))
+year_2022$year <- rep(2022, nrow(year_2022))
+year_2021$year <- rep(2021, nrow(year_2021))
+
+## binding data
+combined_years <- rbind(year_2023, year_2022, year_2021)
+
+usethis::use_data(combined_years, overwrite = TRUE)
+
+```
+This gives me a dataset with every team's total sor score over the past three seasons. I could now filter it to only contain Utah teams by running this code:
+```{r}
+  library(stat5555sor)
+  # Load dataset from within package
+  data("combined_years")
+  # filter dataset to only include rows where the state column contains "Utah"
+  df_utah <- combined_years[grepl("Utah|BYU|Weber St", combined_years$Team),]
+  # exclude Utah Tech
+  df_utah <- df_utah[!grepl("Utah Tech", df_utah$Team),]
+  head(df_utah)
+```
+From here, to create a line plot to be able to better visualize the change in total sor over the past three seasons, I could run this code:
+```{r, fig.width=8, fig.height=7}
+library(ggplot2)
+  ggplot(data = df_utah, aes(x = year, y = SOR, group = Team, color = Team)) +
+    geom_line(size = 1.5) +
+    scale_x_continuous(breaks = seq(min(df_utah$year), max(df_utah$year), by = 1)) +
+    scale_y_continuous(breaks = seq(round(min(df_utah$SOR)), round(max(df_utah$SOR))), 
+                       labels = function(x) format(x, scientific = FALSE)) +
+    scale_color_manual(values = c("blue", "black", "red", "grey", "green", "purple")) +
+    labs(title = "Line Plot Utah Teams SOR Score for Past Three Seasons", x = "Year", y = "SOR") +
+    theme(plot.title = element_text(size = 16, hjust = 0.5))
+```
 
 
 

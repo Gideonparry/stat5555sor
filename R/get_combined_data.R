@@ -13,6 +13,7 @@
 #' @returns combined data.
 #'
 #' @import dplyr
+#' @importFrom stats complete.cases
 #'
 #' @export
 #'
