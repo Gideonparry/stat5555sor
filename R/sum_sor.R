@@ -1,10 +1,13 @@
 #' Sums sor for each team.
 #'
-#' @param combined_data A data frame containing home and away sor for every team
+#' @param year The year to get the data from. Only works from 2021
+#' @param games_date the cutoff date for the games played.
 #' @return a data frame with every team and their sor
 #' @export
 
-sum_sor <- function(combined_data){
+sum_sor <- function(year, games_date){
+
+  combined_data <- get_combined_data(year, games_date)
 
   # Here we assign variables for home teams, away teams, home sor, and away sor
   home_team <- combined_data$Home_team
