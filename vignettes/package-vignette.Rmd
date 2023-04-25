@@ -1,0 +1,54 @@
+---
+title: "Package Vignette"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Package Vignette}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(stat5555sor)
+```
+# Workflow
+## Web scrape data and format
+
+Everything starts with the sum_sor function, which will in turn call all the rest of the helper functions. It is not the only function exported though as some users may want to see the changes in data in between steps.
+
+To start off, the data is pulled from the two following websites, https://kenpom.com/cbbga23.txt and https://www.warrennolan.com/basketball/2023/net and then formatted into a more viewable data frame. This function was exported as there is a parameter of date that the function will include all games up until that date. So, a user could find the sor score for half a season if they wanted. In this example below, we chose the date of selection sunday for this year.
+
+```{r}
+test <- get_combined_data(2023, "2023-03-12")
+head(test)
+```
+
+
+
+## sor_points function
+
+This is the function that contains the algorithm we created to find the change in sor score for one game. It was exported as well so that users have the ability to see the sor change for any specific game. As an example we will take the data from the first row of the test dataset and run the function to see the change in sor for Jackson State.
+
+```{r}
+sor_points(56, 65, 206, 363, FALSE, FALSE)
+```
+
+## sum_sor results
+
+Finally, the sum_sor function will sum up the sor changes for each row and each team. It will then create a new data frame with two columns, the team name and the total sor score. 
+
+```{r}
+test_sor <- sum_sor(2023, "2023-03-12")
+head(test_sor)
+```
+
+
+
+
+

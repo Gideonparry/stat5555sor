@@ -14,8 +14,14 @@ Roxygen: list(markdown = TRUE)
 Imports: dplyr, rvest, magrittr, stringr, httr, xml2, stringdist
 RoxygenNote: 7.2.3
 Suggests: 
+    knitr,
+    rmarkdown,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
+<<<<<<< HEAD
 Depends: 
     R (>= 2.10)
 LazyData: true
+=======
+VignetteBuilder: knitr
+>>>>>>> 22e562c94223efd3c79cc9b163478bf1aa734cad
