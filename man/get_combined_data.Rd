@@ -4,14 +4,25 @@
 \alias{get_combined_data}
 \title{Gets combined data to compute sor record}
 \usage{
-get_combined_data(year)
+get_combined_data(year, games_date)
 }
 \arguments{
-\item{year}{The year to get the data from}
+\item{year}{The year to get the data from. Only works from 2021}
+
+\item{games_data}{the cutoff date for the games played.}
 }
 \value{
 combined data.
 }
 \description{
-Gets combined data to compute sor record
+Gets the combined data with all the games played up to and including the
+specified date. However, the NET rankings we have available and base our
+SOR points on are as of Selection Sunday each year. Selection Sunday in 2023
+was "2023-03-12", in 2022 it was "2022-03-13", and in 2021 it was
+"2021-03-14"
+}
+\examples{
+get_combined_data(2023, "2023-03-12")
+get_combined_data(2022, "2022-03-13")
+
 }
