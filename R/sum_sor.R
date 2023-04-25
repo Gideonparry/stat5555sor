@@ -4,7 +4,7 @@
 #' @return a data frame with every team and their sor
 #' @export
 
-sum_sor2 <- function(combined_data){
+sum_sor <- function(combined_data){
 
   # Here we assign variables for home teams, away teams, home sor, and away sor
   home_team <- combined_data$Home_team
