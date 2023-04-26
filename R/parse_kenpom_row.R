@@ -17,6 +17,6 @@ parse_kenpom_row <- function(row) {
   neutral <- stringr::str_trim(stringr::str_sub(row, 65, 66)) == "N"
 
   return(data.frame(Date = date, Away_team = away_team, Away_score = away_score,
-                    Home_team = home_team, Home_score = home_score, neutral = neutral))
+                    Home_team = home_team, Home_score = home_score,
+                    neutral = neutral))
 }
-

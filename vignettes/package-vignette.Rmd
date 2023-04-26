@@ -54,9 +54,9 @@ If I wanted to look at the past seasons and make a visualization for their sor s
 
 ```{r, eval=FALSE}
 ## Getting data for each year
-year_2023 <- sum_sor(2023,"2023-03-12")
-year_2022 <- sum_sor(2022,"2022-03-13")
-year_2021 <- sum_sor(2021,"2021-03-14")
+year_2023 <- sum_sor(2023, "2023-03-12")
+year_2022 <- sum_sor(2022, "2022-03-13")
+year_2021 <- sum_sor(2021, "2021-03-14")
 
 ## Adding year to data before combining
 year_2023$year <- rep(2023, nrow(year_2023))
@@ -75,9 +75,9 @@ This gives me a dataset with every team's total sor score over the past three se
   # Load dataset from within package
   data("combined_years")
   # filter dataset to only include rows where the state column contains "Utah"
-  df_utah <- combined_years[grepl("Utah|BYU|Weber St", combined_years$Team),]
+  df_utah <- combined_years[grepl("Utah|BYU|Weber St", combined_years$Team), ]
   # exclude Utah Tech
-  df_utah <- df_utah[!grepl("Utah Tech", df_utah$Team),]
+  df_utah <- df_utah[!grepl("Utah Tech", df_utah$Team), ]
   head(df_utah)
 ```
 From here, to create a line plot to be able to better visualize the change in total sor over the past three seasons, I could run this code:
@@ -85,14 +85,19 @@ From here, to create a line plot to be able to better visualize the change in to
 library(ggplot2)
   ggplot(data = df_utah, aes(x = year, y = SOR, group = Team, color = Team)) +
     geom_line(size = 1.5) +
-    scale_x_continuous(breaks = seq(min(df_utah$year), max(df_utah$year), by = 1)) +
-    scale_y_continuous(breaks = seq(round(min(df_utah$SOR)), round(max(df_utah$SOR))), 
+    scale_x_continuous(breaks = seq(min(df_utah$year), max(df_utah$year),
+                                    by = 1)) +
+    scale_y_continuous(breaks = seq(round(min(df_utah$SOR)),
+                                    round(max(df_utah$SOR))),
                        labels = function(x) format(x, scientific = FALSE)) +
-    scale_color_manual(values = c("blue", "black", "red", "grey", "green", "purple")) +
-    labs(title = "Line Plot Utah Teams SOR Score for Past Three Seasons", x = "Year", y = "SOR") +
+    scale_color_manual(values = c("blue", "black", "red", "grey",
+                                  "green", "purple")) +
+    labs(title = "Line Plot Utah Teams SOR Score for Past Three Seasons",
+         x = "Year", y = "SOR") +
     theme(plot.title = element_text(size = 16, hjust = 0.5))
 ```
 
-
+## Link to Package
+https://github.com/Gideonparry/stat5555sor
 
 

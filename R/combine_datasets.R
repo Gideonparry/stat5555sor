@@ -28,13 +28,15 @@ combine_datasets <- function(kenpom_data, warrennolan_data) {
            site = ifelse(neutral, "Neutral", Home_team),
            neutral = ifelse(neutral, 1, 0))
 
-  # Join the kenpom_data_renamed with warrennolan_data to get the conference columns
+  # Join the kenpom_data_renamed with warrennolan_data to get the conference
+  # columns
   combined_data <- kenpom_data_renamed %>%
     dplyr::left_join(warrennolan_data, by = c("Home_team" = "Team")) %>%
     dplyr::rename(home_NET = `NET Rank`) %>%
     dplyr::left_join(warrennolan_data, by = c("Away_team" = "Team")) %>%
     dplyr::rename(away_NET = `NET Rank`) %>%
-    dplyr::select(Date, Away_team, Away_score, away_NET, Home_team, Home_score, home_NET, score_diff, site, neutral)
+    dplyr::select(Date, Away_team, Away_score, away_NET, Home_team, Home_score,
+                  home_NET, score_diff, site, neutral)
 
 
   return(combined_data)

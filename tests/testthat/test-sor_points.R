@@ -28,5 +28,3 @@ test_that("Neutral Home and neutral away worth the same", {
     sor_points(85, 90, 50, 363, FALSE, TRUE)
     )
 })
-
-

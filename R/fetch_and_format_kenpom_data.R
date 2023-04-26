@@ -26,15 +26,15 @@ fetch_and_format_kenpom_data <- function(year) {
 
   ## All Saints are now St.
   kenpom_data <- kenpom_data |>
-    dplyr::mutate(Away_team = str_replace_all(Away_team,"Saint", "St\\."))
+    dplyr::mutate(Away_team = str_replace_all(Away_team, "Saint", "St\\."))
   kenpom_data <- kenpom_data |>
-    dplyr::mutate(Home_team = str_replace_all(Home_team,"Saint", "St\\."))
+    dplyr::mutate(Home_team = str_replace_all(Home_team, "Saint", "St\\."))
 
   ## And so are all states
   kenpom_data <- kenpom_data |>
-    dplyr::mutate(Away_team = str_replace_all(Away_team,"State", "St\\."))
+    dplyr::mutate(Away_team = str_replace_all(Away_team, "State", "St\\."))
   kenpom_data <- kenpom_data |>
-    dplyr::mutate(Home_team = str_replace_all(Home_team,"State", "St\\."))
+    dplyr::mutate(Home_team = str_replace_all(Home_team, "State", "St\\."))
 
 
 
