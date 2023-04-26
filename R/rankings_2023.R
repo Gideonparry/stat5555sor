@@ -9,4 +9,7 @@
 #'   \item{ranking}{The team's strenght of record ranking}
 #' }
 #'
+#' @examples
+#' data(rankings_2023)
+#' head(rankings_2023)
 "rankings_2023"

@@ -17,4 +17,8 @@ rankings_2023
 \description{
 A strength of record ranking for D1 basketball teams in 2023
 }
+\examples{
+data(rankings_2023)
+head(rankings_2023)
+}
 \keyword{datasets}

@@ -18,4 +18,8 @@ combined_years
 \description{
 The sor and sor ranking of all college basketball teams over 3 seasons
 }
+\examples{
+data(combined_years)
+head(combined_years)
+}
 \keyword{datasets}

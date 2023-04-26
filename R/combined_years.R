@@ -10,4 +10,7 @@
 #'   \item{year}{The year the other data is from}
 #' }
 #'
+#'@examples
+#'data(combined_years)
+#'head(combined_years)
 "combined_years"

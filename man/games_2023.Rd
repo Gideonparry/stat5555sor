@@ -26,4 +26,9 @@ games_2023
 \description{
 All D1 college basketball games played in 2023
 }
+\examples{
+data(games_2023)
+head(games_2023)
+
+}
 \keyword{datasets}

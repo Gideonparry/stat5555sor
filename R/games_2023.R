@@ -18,4 +18,8 @@
 #'   \item{away_sor}{strenght of record points gained or lost for the away team}
 #' }
 #'
+#' @examples
+#' data(games_2023)
+#' head(games_2023)
+#'
 "games_2023"
