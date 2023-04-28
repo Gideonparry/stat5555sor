@@ -19,12 +19,12 @@ sum_sor <- function(year, games_date) {
   num <- rep(0, length(unique(home_team)))
 
   # This for loop sums all of the home team sor scores
-  for (i in 1:length(unique(home_team))){
+  for (i in seq_len(length(unique(home_team)))) {
     num[i] <- sum(home_sor[home_team == sort(unique(home_team))[i]])
   }
 
   # This for loop sums all of the away team sor scores
-  for (i in 1:length(unique(away_team))){
+  for (i in seq_len(length(unique(away_team)))) {
     num[i] <- sum(away_sor[away_team == sort(unique(away_team))[i]])
   }
 
