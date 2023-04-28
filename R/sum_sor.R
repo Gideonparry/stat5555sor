@@ -32,6 +32,6 @@ sum_sor <- function(year, games_date) {
   sor <- data.frame(sort(unique(home_team)), num)
   colnames(sor) <- c("Team", "SOR")
   sor <- sor[order(sor$SOR, decreasing = TRUE), ]
-  sor$ranking <- c(1:nrow(sor))
+  sor$ranking <- c(seq_len(nrow(sor)))
   return(sor)
 }
