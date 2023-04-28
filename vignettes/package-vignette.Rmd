@@ -20,40 +20,49 @@ knitr::opts_chunk$set(
 ```{r setup}
 library(stat5555sor)
 ```
-# Workflow
-## Web scrape data and format
+# Introduction
 
-Everything starts with the sum_sor function, which will in turn call all the rest of the helper functions. It is not the only function exported though as some users may want to see the changes in data in between steps.
+Introduction
+------------
 
-To start off, the data is pulled from the two following websites, https://kenpom.com/cbbga23.txt and https://www.warrennolan.com/basketball/2023/net and then formatted into a more viewable data frame. This function was exported as there is a parameter of date that the function will include all games up until that date. So, a user could find the sor score for half a season if they wanted. In this example below, we chose the date of selection sunday for this year.
+Welcome to the stat5555sor package vignette! This package is designed to calculate the strength of record (SOR) for college basketball teams in a given season. SOR, or Strength of Record, is a measure of team performance that takes into account the quality of opponents a team has played and the outcomes of those games. By using data from both KenPom and Warren Nolan, the package calculates a custom SOR score for each team based on their game outcomes. The SOR score is calculated using a custom formula that is tailored specifically to college basketball and is designed to provide a more accurate assessment of team strength.
+
+This package provides a comprehensive and flexible approach to calculating SOR scores for college basketball teams. Whether you're a sports analyst looking to evaluate team performance, a bettor making informed decisions, or a researcher conducting statistical analysis, stat5555sor offers a custom formula tailored to college basketball that provides a more accurate assessment of team strength. Unlike other SOR systems, this package is designed to be user-friendly and accessible to analysts of all skill levels. With clear and concise documentation, users can easily navigate the package and calculate SOR scores for a given season. Moreover, the package is highly transparent, providing users with insights into the underlying data and formula used to calculate the scores. By using stat5555sor, users can gain a deeper understanding of team performance and make informed decisions.
+
+In this vignette, we will provide an overview of the package and demonstrate how to use it to calculate SOR scores for a given season. We will also discuss the underlying data and formula used to calculate the scores, as well as provide an example of how to use the output from this package in conjunction with the commonly used data visualization package, ggplot2, to create a visualization of the data. By the end of this vignette, users will have a better understanding of what an SOR score is, how it is calculated, and how to use the stat5555sor package to analyze college basketball team performance.
+  
+# Using the sum_sor() function
+
+In this section, we'll explore how to visualize NCAA basketball data using R. We'll be using data that includes information about every Division I basketball game played in the 2022-2023 seasons. This data is normally pulled from the two following websites, https://kenpom.com/cbbga23.txt and https://www.warrennolan.com/basketball/2023/net and then formatted into a more viewable data frame within R.
+
+The 'sum_sor' function is the master function in this data analysis pipeline. Specifically, it calls all the necessary functions to compute the SOR score for every team. 'The sum_sor' function takes two arguments: year, which is the year for which the data is requested, and games_date, which is the cutoff date for the games played.
+
+Upon calling the 'sum_sor' function, it first runs the 'get_combined_data' function to obtain the data frame with the necessary information about each game. Once that data frame is created and formatted correctly, two new, empty columns are created within the data frame for the SOR change for both the home and away teams.
+
+In order to calculate the SOR score for each game, the function 'sor_points' is then called from within the 'get_combined_data' function and applied to each row twice. This function takes in the team's own score, the opposing team's score, the opposing team's NET ranking, the number of teams in the college basketball season, and the game location as inputs. It returns the strength of record points gained or lost by the home or away team based on whether they won or lost the game. 
+
+At this point in the function, the data frame would look something like this:
 
 ```{r}
 test <- get_combined_data(2023, "2023-03-12")
 head(test)
 ```
 
-
-
-## sor_points function
-
-This is the function that contains the algorithm we created to find the change in sor score for one game. It was exported as well so that users have the ability to see the sor change for any specific game. As an example we will take the data from the first row of the test dataset and run the function to see the change in sor for Jackson State.
-
-```{r}
-sor_points(56, 65, 206, 363, FALSE, FALSE)
-```
-
-## sum_sor results
-
-Finally, the sum_sor function will sum up the sor changes for each row and each team. It will then create a new data frame with two columns, the team name and the total sor score. 
+Finally, the sum_sor function will run two for loops to sum up the SOR scores for each team. The function then creates a new data frame that contains two columns, the name of the team, and their total SOR score. This is the data frame that is returned by the function. 
 
 ```{r}
 test_sor <- sum_sor(2023, "2023-03-12")
 head(test_sor)
 ```
 
-## Additional Package Uses
+While this function was designed to calculate the Strength of Record for a specific team, the output can also be used to compare the performance of multiple teams over time or to identify trends in team performance. This can also be a useful tool for coaches, analysts, or fans looking to evaluate the success of their team or identify areas for improvement.
 
-If I wanted to look at the past seasons and make a visualization for their sor scores over that time period, here is how I could do it using this package (note that this is an example dataset that is included within the package already):
+# Additional Uses for Package Output
+## Visualization of Utah Teams' SOR Scores Over the Last 3 Seasons
+
+This section shows how to create a visualization of the Strength of Record (SOR) scores for all Utah college basketball teams over the past three seasons. The purpose of this visualization is to give users a better understanding of how the SOR scores of these teams have changed over time, and to identify any trends or patterns that may be present.
+
+By running the sum_sor function once for every season, the user could then bind the data all together and add the year to each row to create a dataset that contains the SOR score for each team for the past 3 years.Note that this dataset is included within the package itself and can be called using the 'data' function once the package has been installed to the user's device.
 
 ```{r, eval=FALSE}
 ## Getting data for each year
@@ -69,10 +78,10 @@ year_2021$year <- rep(2021, nrow(year_2021))
 ## binding data
 combined_years <- rbind(year_2023, year_2022, year_2021)
 
-usethis::use_data(combined_years, overwrite = TRUE)
-
 ```
-This gives me a dataset with every team's total sor score over the past three seasons. I could now filter it to only contain Utah teams by running this code:
+
+Further subsetting the data to only include any teams that contain the phrases "Utah", "BYU" or "Weber St" will produce a dataset that only contains the Utah team's SOR scores over the last 3 seasons. 
+
 ```{r}
   library(stat5555sor)
   # Load dataset from within package
@@ -83,7 +92,7 @@ This gives me a dataset with every team's total sor score over the past three se
   df_utah <- df_utah[!grepl("Utah Tech", df_utah$Team), ]
   head(df_utah)
 ```
-From here, to create a line plot to be able to better visualize the change in total sor over the past three seasons, I could run this code:
+From here, producing a line plot to see the change over time could be done using the ggplot2 library.
 ```{r, fig.width=8, fig.height=7}
 library(ggplot2)
   ggplot(data = df_utah, aes(x = year, y = SOR, group = Team, color = Team)) +
@@ -99,6 +108,16 @@ library(ggplot2)
          x = "Year", y = "SOR") +
     theme(plot.title = element_text(size = 16, hjust = 0.5))
 ```
+
+# Conclusion
+
+In this vignette, we have presented a package that can be used to calculate the Strength of Record (SOR) scores for college basketball teams. The main function of the package, sum_sor, allows users to easily obtain the SOR scores for any given season and date.
+
+Additionally, we have demonstrated several potential uses for the SOR scores, including comparing team performance across seasons, identifying top-performing teams, and analyzing the performance of local Utah teams.
+
+We have also included a custom function, sor_points, which can be used to calculate the SOR points for individual games. This function may be of particular interest to those who want to dive deeper into the SOR methodology or who want to create their own SOR-related analyses.
+
+Overall, this package provides a useful tool for anyone interested in analyzing college basketball team performance. With its simple and intuitive interface, users can quickly and easily obtain SOR scores for any season and date. We hope that this package will be of use to researchers, analysts, and basketball enthusiasts alike.
 
 ## Link to Package
 https://github.com/Gideonparry/stat5555sor

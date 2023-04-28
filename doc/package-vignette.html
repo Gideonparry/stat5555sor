@@ -341,20 +341,69 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stat5555sor)</span></code></pre></div>
-<div id="workflow" class="section level1">
-<h1>Workflow</h1>
-<div id="web-scrape-data-and-format" class="section level2">
-<h2>Web scrape data and format</h2>
-<p>Everything starts with the sum_sor function, which will in turn call
-all the rest of the helper functions. It is not the only function
-exported though as some users may want to see the changes in data in
-between steps.</p>
-<p>To start off, the data is pulled from the two following websites, <a href="https://kenpom.com/cbbga23.txt" class="uri">https://kenpom.com/cbbga23.txt</a> and <a href="https://www.warrennolan.com/basketball/2023/net" class="uri">https://www.warrennolan.com/basketball/2023/net</a> and then
-formatted into a more viewable data frame. This function was exported as
-there is a parameter of date that the function will include all games up
-until that date. So, a user could find the sor score for half a season
-if they wanted. In this example below, we chose the date of selection
-sunday for this year.</p>
+<div id="introduction" class="section level1">
+<h1>Introduction</h1>
+<div id="introduction-1" class="section level2">
+<h2>Introduction</h2>
+<p>Welcome to the stat5555sor package vignette! This package is designed
+to calculate the strength of record (SOR) for college basketball teams
+in a given season. SOR, or Strength of Record, is a measure of team
+performance that takes into account the quality of opponents a team has
+played and the outcomes of those games. By using data from both KenPom
+and Warren Nolan, the package calculates a custom SOR score for each
+team based on their game outcomes. The SOR score is calculated using a
+custom formula that is tailored specifically to college basketball and
+is designed to provide a more accurate assessment of team strength.</p>
+<p>This package provides a comprehensive and flexible approach to
+calculating SOR scores for college basketball teams. Whether you’re a
+sports analyst looking to evaluate team performance, a bettor making
+informed decisions, or a researcher conducting statistical analysis,
+stat5555sor offers a custom formula tailored to college basketball that
+provides a more accurate assessment of team strength. Unlike other SOR
+systems, this package is designed to be user-friendly and accessible to
+analysts of all skill levels. With clear and concise documentation,
+users can easily navigate the package and calculate SOR scores for a
+given season. Moreover, the package is highly transparent, providing
+users with insights into the underlying data and formula used to
+calculate the scores. By using stat5555sor, users can gain a deeper
+understanding of team performance and make informed decisions.</p>
+<p>In this vignette, we will provide an overview of the package and
+demonstrate how to use it to calculate SOR scores for a given season. We
+will also discuss the underlying data and formula used to calculate the
+scores, as well as provide an example of how to use the output from this
+package in conjunction with the commonly used data visualization
+package, ggplot2, to create a visualization of the data. By the end of
+this vignette, users will have a better understanding of what an SOR
+score is, how it is calculated, and how to use the stat5555sor package
+to analyze college basketball team performance.</p>
+</div>
+</div>
+<div id="using-the-sum_sor-function" class="section level1">
+<h1>Using the sum_sor() function</h1>
+<p>In this section, we’ll explore how to visualize NCAA basketball data
+using R. We’ll be using data that includes information about every
+Division I basketball game played in the 2022-2023 seasons. This data is
+normally pulled from the two following websites, <a href="https://kenpom.com/cbbga23.txt" class="uri">https://kenpom.com/cbbga23.txt</a> and <a href="https://www.warrennolan.com/basketball/2023/net" class="uri">https://www.warrennolan.com/basketball/2023/net</a> and then
+formatted into a more viewable data frame within R.</p>
+<p>The ‘sum_sor’ function is the master function in this data analysis
+pipeline. Specifically, it calls all the necessary functions to compute
+the SOR score for every team. ‘The sum_sor’ function takes two
+arguments: year, which is the year for which the data is requested, and
+games_date, which is the cutoff date for the games played.</p>
+<p>Upon calling the ‘sum_sor’ function, it first runs the
+‘get_combined_data’ function to obtain the data frame with the necessary
+information about each game. Once that data frame is created and
+formatted correctly, two new, empty columns are created within the data
+frame for the SOR change for both the home and away teams.</p>
+<p>In order to calculate the SOR score for each game, the function
+‘sor_points’ is then called from within the ‘get_combined_data’ function
+and applied to each row twice. This function takes in the team’s own
+score, the opposing team’s score, the opposing team’s NET ranking, the
+number of teams in the college basketball season, and the game location
+as inputs. It returns the strength of record points gained or lost by
+the home or away team based on whether they won or lost the game.</p>
+<p>At this point in the function, the data frame would look something
+like this:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>test <span class="ot">&lt;-</span> <span class="fu">get_combined_data</span>(<span class="dv">2023</span>, <span class="st">&quot;2023-03-12&quot;</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; No encoding supplied: defaulting to UTF-8.</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(test)</span>
@@ -370,89 +419,110 @@ sunday for this year.</p>
 <span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6 2022-11-07 North Dakota St.         58      215 Arkansas           76       21</span></span>
 <span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # ℹ 5 more variables: score_diff &lt;int&gt;, site &lt;chr&gt;, neutral &lt;dbl&gt;,</span></span>
 <span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; #   home_sor &lt;dbl&gt;, away_sor &lt;dbl&gt;</span></span></code></pre></div>
+<p>Finally, the sum_sor function will run two for loops to sum up the
+SOR scores for each team. The function then creates a new data frame
+that contains two columns, the name of the team, and their total SOR
+score. This is the data frame that is returned by the function.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>test_sor <span class="ot">&lt;-</span> <span class="fu">sum_sor</span>(<span class="dv">2023</span>, <span class="st">&quot;2023-03-12&quot;</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; No encoding supplied: defaulting to UTF-8.</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(test_sor)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;            Team      SOR ranking</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 114     Houston 8.075916       1</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4       Alabama 7.806283       2</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 133      Kansas 7.701571       3</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 318        UCLA 7.557592       4</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 238      Purdue 7.520942       5</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 208 North Texas 6.767016       6</span></span></code></pre></div>
+<p>While this function was designed to calculate the Strength of Record
+for a specific team, the output can also be used to compare the
+performance of multiple teams over time or to identify trends in team
+performance. This can also be a useful tool for coaches, analysts, or
+fans looking to evaluate the success of their team or identify areas for
+improvement.</p>
 </div>
-<div id="sor_points-function" class="section level2">
-<h2>sor_points function</h2>
-<p>This is the function that contains the algorithm we created to find
-the change in sor score for one game. It was exported as well so that
-users have the ability to see the sor change for any specific game. As
-an example we will take the data from the first row of the test dataset
-and run the function to see the change in sor for Jackson State.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sor_points</span>(<span class="dv">56</span>, <span class="dv">65</span>, <span class="dv">206</span>, <span class="dv">363</span>, <span class="cn">FALSE</span>, <span class="cn">FALSE</span>)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] -0.5366492</span></span></code></pre></div>
-</div>
-<div id="sum_sor-results" class="section level2">
-<h2>sum_sor results</h2>
-<p>Finally, the sum_sor function will sum up the sor changes for each
-row and each team. It will then create a new data frame with two
-columns, the team name and the total sor score.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>test_sor <span class="ot">&lt;-</span> <span class="fu">sum_sor</span>(<span class="dv">2023</span>, <span class="st">&quot;2023-03-12&quot;</span>)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; No encoding supplied: defaulting to UTF-8.</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(test_sor)</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;            Team      SOR ranking</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 114     Houston 8.075916       1</span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4       Alabama 7.806283       2</span></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 133      Kansas 7.701571       3</span></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 318        UCLA 7.557592       4</span></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 238      Purdue 7.520942       5</span></span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 208 North Texas 6.767016       6</span></span></code></pre></div>
-</div>
-<div id="additional-package-uses" class="section level2">
-<h2>Additional Package Uses</h2>
-<p>If I wanted to look at the past seasons and make a visualization for
-their sor scores over that time period, here is how I could do it using
-this package (note that this is an example dataset that is included
-within the package already):</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Getting data for each year</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>year_2023 <span class="ot">&lt;-</span> <span class="fu">sum_sor</span>(<span class="dv">2023</span>, <span class="st">&quot;2023-03-12&quot;</span>)</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>year_2022 <span class="ot">&lt;-</span> <span class="fu">sum_sor</span>(<span class="dv">2022</span>, <span class="st">&quot;2022-03-13&quot;</span>)</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>year_2021 <span class="ot">&lt;-</span> <span class="fu">sum_sor</span>(<span class="dv">2021</span>, <span class="st">&quot;2021-03-14&quot;</span>)</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="do">## Adding year to data before combining</span></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>year_2023<span class="sc">$</span>year <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">2023</span>, <span class="fu">nrow</span>(year_2023))</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>year_2022<span class="sc">$</span>year <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">2022</span>, <span class="fu">nrow</span>(year_2022))</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>year_2021<span class="sc">$</span>year <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">2021</span>, <span class="fu">nrow</span>(year_2021))</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="do">## binding data</span></span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>combined_years <span class="ot">&lt;-</span> <span class="fu">rbind</span>(year_2023, year_2022, year_2021)</span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>usethis<span class="sc">::</span><span class="fu">use_data</span>(combined_years, <span class="at">overwrite =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
-<p>This gives me a dataset with every team’s total sor score over the
-past three seasons. I could now filter it to only contain Utah teams by
-running this code:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(stat5555sor)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Load dataset from within package</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data</span>(<span class="st">&quot;combined_years&quot;</span>)</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># filter dataset to only include rows where the state column contains &quot;Utah&quot;</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  df_utah <span class="ot">&lt;-</span> combined_years[<span class="fu">grepl</span>(<span class="st">&quot;Utah|BYU|Weber St&quot;</span>, combined_years<span class="sc">$</span>Team), ]</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="co"># exclude Utah Tech</span></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  df_utah <span class="ot">&lt;-</span> df_utah[<span class="sc">!</span><span class="fu">grepl</span>(<span class="st">&quot;Utah Tech&quot;</span>, df_utah<span class="sc">$</span>Team), ]</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(df_utah)</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;              Team       SOR ranking year</span></span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 331      Utah St. 5.5628272       8 2023</span></span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 333   Utah Valley 3.8743455      32 2023</span></span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 330          Utah 1.1675393      99 2023</span></span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 35            BYU 0.7434555     120 2023</span></span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 275 Southern Utah 0.5732984     126 2023</span></span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 348     Weber St. 0.2513089     138 2023</span></span></code></pre></div>
-<p>From here, to create a line plot to be able to better visualize the
-change in total sor over the past three seasons, I could run this
-code:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="at">data =</span> df_utah, <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> SOR, <span class="at">group =</span> Team, <span class="at">color =</span> Team)) <span class="sc">+</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>(<span class="at">size =</span> <span class="fl">1.5</span>) <span class="sc">+</span></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="fu">min</span>(df_utah<span class="sc">$</span>year), <span class="fu">max</span>(df_utah<span class="sc">$</span>year),</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">by =</span> <span class="dv">1</span>)) <span class="sc">+</span></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_y_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="fu">round</span>(<span class="fu">min</span>(df_utah<span class="sc">$</span>SOR)),</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>                                    <span class="fu">round</span>(<span class="fu">max</span>(df_utah<span class="sc">$</span>SOR))),</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>                       <span class="at">labels =</span> <span class="cf">function</span>(x) <span class="fu">format</span>(x, <span class="at">scientific =</span> <span class="cn">FALSE</span>)) <span class="sc">+</span></span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;blue&quot;</span>, <span class="st">&quot;black&quot;</span>, <span class="st">&quot;red&quot;</span>, <span class="st">&quot;grey&quot;</span>,</span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>                                  <span class="st">&quot;green&quot;</span>, <span class="st">&quot;purple&quot;</span>)) <span class="sc">+</span></span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Line Plot Utah Teams SOR Score for Past Three Seasons&quot;</span>,</span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>         <span class="at">x =</span> <span class="st">&quot;Year&quot;</span>, <span class="at">y =</span> <span class="st">&quot;SOR&quot;</span>) <span class="sc">+</span></span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">16</span>, <span class="at">hjust =</span> <span class="fl">0.5</span>))</span></code></pre></div>
+<div id="additional-uses-for-package-output" class="section level1">
+<h1>Additional Uses for Package Output</h1>
+<div id="visualization-of-utah-teams-sor-scores-over-the-last-3-seasons" class="section level2">
+<h2>Visualization of Utah Teams’ SOR Scores Over the Last 3 Seasons</h2>
+<p>This section shows how to create a visualization of the Strength of
+Record (SOR) scores for all Utah college basketball teams over the past
+three seasons. The purpose of this visualization is to give users a
+better understanding of how the SOR scores of these teams have changed
+over time, and to identify any trends or patterns that may be
+present.</p>
+<p>By running the sum_sor function once for every season, the user could
+then bind the data all together and add the year to each row to create a
+dataset that contains the SOR score for each team for the past 3
+years.Note that this dataset is included within the package itself and
+can be called using the ‘data’ function once the package has been
+installed to the user’s device.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Getting data for each year</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>year_2023 <span class="ot">&lt;-</span> <span class="fu">sum_sor</span>(<span class="dv">2023</span>, <span class="st">&quot;2023-03-12&quot;</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>year_2022 <span class="ot">&lt;-</span> <span class="fu">sum_sor</span>(<span class="dv">2022</span>, <span class="st">&quot;2022-03-13&quot;</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>year_2021 <span class="ot">&lt;-</span> <span class="fu">sum_sor</span>(<span class="dv">2021</span>, <span class="st">&quot;2021-03-14&quot;</span>)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="do">## Adding year to data before combining</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>year_2023<span class="sc">$</span>year <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">2023</span>, <span class="fu">nrow</span>(year_2023))</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>year_2022<span class="sc">$</span>year <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">2022</span>, <span class="fu">nrow</span>(year_2022))</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>year_2021<span class="sc">$</span>year <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">2021</span>, <span class="fu">nrow</span>(year_2021))</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="do">## binding data</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>combined_years <span class="ot">&lt;-</span> <span class="fu">rbind</span>(year_2023, year_2022, year_2021)</span></code></pre></div>
+<p>Further subsetting the data to only include any teams that contain
+the phrases “Utah”, “BYU” or “Weber St” will produce a dataset that only
+contains the Utah team’s SOR scores over the last 3 seasons.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(stat5555sor)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Load dataset from within package</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data</span>(<span class="st">&quot;combined_years&quot;</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># filter dataset to only include rows where the state column contains &quot;Utah&quot;</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  df_utah <span class="ot">&lt;-</span> combined_years[<span class="fu">grepl</span>(<span class="st">&quot;Utah|BYU|Weber St&quot;</span>, combined_years<span class="sc">$</span>Team), ]</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="co"># exclude Utah Tech</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  df_utah <span class="ot">&lt;-</span> df_utah[<span class="sc">!</span><span class="fu">grepl</span>(<span class="st">&quot;Utah Tech&quot;</span>, df_utah<span class="sc">$</span>Team), ]</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(df_utah)</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;              Team       SOR ranking year</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 331      Utah St. 5.5628272       8 2023</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 333   Utah Valley 3.8743455      32 2023</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 330          Utah 1.1675393      99 2023</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 35            BYU 0.7434555     120 2023</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 275 Southern Utah 0.5732984     126 2023</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 348     Weber St. 0.2513089     138 2023</span></span></code></pre></div>
+<p>From here, producing a line plot to see the change over time could be
+done using the ggplot2 library.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="at">data =</span> df_utah, <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> SOR, <span class="at">group =</span> Team, <span class="at">color =</span> Team)) <span class="sc">+</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>(<span class="at">size =</span> <span class="fl">1.5</span>) <span class="sc">+</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="fu">min</span>(df_utah<span class="sc">$</span>year), <span class="fu">max</span>(df_utah<span class="sc">$</span>year),</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">by =</span> <span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_y_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="fu">round</span>(<span class="fu">min</span>(df_utah<span class="sc">$</span>SOR)),</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>                                    <span class="fu">round</span>(<span class="fu">max</span>(df_utah<span class="sc">$</span>SOR))),</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>                       <span class="at">labels =</span> <span class="cf">function</span>(x) <span class="fu">format</span>(x, <span class="at">scientific =</span> <span class="cn">FALSE</span>)) <span class="sc">+</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;blue&quot;</span>, <span class="st">&quot;black&quot;</span>, <span class="st">&quot;red&quot;</span>, <span class="st">&quot;grey&quot;</span>,</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>                                  <span class="st">&quot;green&quot;</span>, <span class="st">&quot;purple&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Line Plot Utah Teams SOR Score for Past Three Seasons&quot;</span>,</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>         <span class="at">x =</span> <span class="st">&quot;Year&quot;</span>, <span class="at">y =</span> <span class="st">&quot;SOR&quot;</span>) <span class="sc">+</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">16</span>, <span class="at">hjust =</span> <span class="fl">0.5</span>))</span></code></pre></div>
 <p><img src="data:image/png;base64,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" /><!-- --></p>
 </div>
+</div>
+<div id="conclusion" class="section level1">
+<h1>Conclusion</h1>
+<p>In this vignette, we have presented a package that can be used to
+calculate the Strength of Record (SOR) scores for college basketball
+teams. The main function of the package, sum_sor, allows users to easily
+obtain the SOR scores for any given season and date.</p>
+<p>Additionally, we have demonstrated several potential uses for the SOR
+scores, including comparing team performance across seasons, identifying
+top-performing teams, and analyzing the performance of local Utah
+teams.</p>
+<p>We have also included a custom function, sor_points, which can be
+used to calculate the SOR points for individual games. This function may
+be of particular interest to those who want to dive deeper into the SOR
+methodology or who want to create their own SOR-related analyses.</p>
+<p>Overall, this package provides a useful tool for anyone interested in
+analyzing college basketball team performance. With its simple and
+intuitive interface, users can quickly and easily obtain SOR scores for
+any season and date. We hope that this package will be of use to
+researchers, analysts, and basketball enthusiasts alike.</p>
 <div id="link-to-package" class="section level2">
 <h2>Link to Package</h2>
 <p><a href="https://github.com/Gideonparry/stat5555sor" class="uri">https://github.com/Gideonparry/stat5555sor</a></p>
