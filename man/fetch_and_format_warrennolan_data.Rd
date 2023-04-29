@@ -4,10 +4,12 @@
 \alias{fetch_and_format_warrennolan_data}
 \title{Gets Data from warren nolan}
 \usage{
-fetch_and_format_warrennolan_data(year)
+fetch_and_format_warrennolan_data(year, Team = Team)
 }
 \arguments{
 \item{year}{the year to run obtain the Warren Nolan data}
+
+\item{Team}{the team that is being filtered}
 }
 \value{
 Warren Nolan data

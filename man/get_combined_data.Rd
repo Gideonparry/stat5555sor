@@ -4,10 +4,19 @@
 \alias{get_combined_data}
 \title{Gets combined data to compute sor record}
 \usage{
-get_combined_data(year, games_date)
+get_combined_data(
+  year,
+  games_date,
+  Date = Date,
+  Home_score = Home_score,
+  Away_score = Away_score,
+  away_NET = away_NET,
+  neutral = neutral,
+  home_NET = home_NET
+)
 }
 \arguments{
-\item{year}{The year to get the data from. Only works from 2021}
+\item{year}{The year to get the data from. Only worksgit from 2021}
 
 \item{games_date}{the cutoff date for the games played.}
 }

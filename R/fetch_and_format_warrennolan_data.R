@@ -3,6 +3,7 @@
 #'
 #'
 #' @param year the year to run obtain the Warren Nolan data
+#' @param Team the team that is being filtered
 #'
 #' @returns Warren Nolan data
 #'
@@ -10,7 +11,7 @@
 #' @import rvest
 #' @importFrom magrittr %>%
 
-fetch_and_format_warrennolan_data <- function(year) {
+fetch_and_format_warrennolan_data <- function(year, Team = Team) {
   warrennolan_url <- paste0(
     "https://www.warrennolan.com/basketball/",
     year, "/net"
@@ -22,19 +23,19 @@ fetch_and_format_warrennolan_data <- function(year) {
   ## renames to make formatting work
 
   warrennolan_data <- warrennolan_data |>
-    dplyr::mutate(Team = str_replace_all(Team, "State", "St\\."))
+    dplyr::mutate(Team = str_replace_all({{Team}}, "State", "St\\."))
 
   warrennolan_data <- warrennolan_data |>
-    dplyr::mutate(Team = str_replace_all(Team, "Saint", "St\\."))
+    dplyr::mutate(Team = str_replace_all({{Team}}, "Saint", "St\\."))
 
   warrennolan_data <- warrennolan_data |>
-    dplyr::mutate(Team = str_replace_all(Team, "-", " "))
+    dplyr::mutate(Team = str_replace_all({{Team}}, "-", " "))
 
  warrennolan_data <- warrennolan_data |>
-    dplyr::mutate(Team = str_replace_all(Team, "\\(", ""))
+    dplyr::mutate(Team = str_replace_all({{Team}}, "\\(", ""))
 
   warrennolan_data <- warrennolan_data |>
-    dplyr::mutate(Team = str_replace_all(Team, "\\)", ""))
+    dplyr::mutate(Team = str_replace_all({{Team}}, "\\)", ""))
 
 
   ## Individual teams that don't follow a pattern
@@ -42,49 +43,49 @@ fetch_and_format_warrennolan_data <- function(year) {
   warrennolan_data <- warrennolan_data |>
     dplyr::mutate(
       Team =
-        str_replace_all(Team, "St. Mary's College", "St. Mary's")
+        str_replace_all({{Team}}, "St. Mary's College", "St. Mary's")
     )
 
   warrennolan_data <- warrennolan_data |>
     dplyr::mutate(
       Team =
-        str_replace_all(Team, "FAU", "Florida Atlantic")
+        str_replace_all({{Team}}, "FAU", "Florida Atlantic")
     )
 
   warrennolan_data <- warrennolan_data |>
     dplyr::mutate(
       Team =
-        str_replace_all(Team, "North Carolina St.", "N.C. St.")
+        str_replace_all({{Team}}, "North Carolina St.", "N.C. St.")
     )
 
   warrennolan_data <- warrennolan_data |>
     dplyr::mutate(
       Team =
-        str_replace_all(Team, "UNCG", "UNC Greensboro")
+        str_replace_all({{Team}}, "UNCG", "UNC Greensboro")
     )
 
   warrennolan_data <- warrennolan_data |>
     dplyr::mutate(
       Team =
-        str_replace_all(Team, "Ole Miss", "Mississippi")
+        str_replace_all({{Team}}, "Ole Miss", "Mississippi")
     )
 
   warrennolan_data <- warrennolan_data |>
     dplyr::mutate(
       Team =
-        str_replace_all(Team, "Seattle University", "Seattle")
+        str_replace_all({{Team}}, "Seattle University", "Seattle")
     )
 
   warrennolan_data <- warrennolan_data |>
     dplyr::mutate(
       Team =
-        str_replace_all(Team, "UNCW", "UNC Wilmington")
+        str_replace_all({{Team}}, "UNCW", "UNC Wilmington")
     )
 
   warrennolan_data <- warrennolan_data |>
     dplyr::mutate(
       Team =
-        str_replace_all(Team, "California Baptist", "Cal Baptist")
+        str_replace_all({{Team}}, "California Baptist", "Cal Baptist")
     )
 
 
@@ -92,7 +93,7 @@ fetch_and_format_warrennolan_data <- function(year) {
   dplyr::mutate(
     Team =
       str_replace_all(
-        Team, "Texas A&M Corpus Christi",
+        {{Team}}, "Texas A&M Corpus Christi",
         "Texas A&M Corpus Chris"
       )
   )
@@ -100,13 +101,13 @@ fetch_and_format_warrennolan_data <- function(year) {
   warrennolan_data <- warrennolan_data |>
     dplyr::mutate(
       Team =
-        str_replace_all(Team, "FGCU", "Florida Gulf Coast")
+        str_replace_all({{Team}}, "FGCU", "Florida Gulf Coast")
     )
 
   warrennolan_data <- warrennolan_data |>
     dplyr::mutate(
       Team =
-        str_replace_all(Team, "UMass", "Massachusetts")
+        str_replace_all({{Team}}, "UMass", "Massachusetts")
     )
 
 
@@ -114,91 +115,91 @@ fetch_and_format_warrennolan_data <- function(year) {
   warrennolan_data <- warrennolan_data |>
     dplyr::mutate(
       Team =
-        str_replace_all(Team, "Massachusetts Lowell", "UMass Lowell")
+        str_replace_all({{Team}}, "Massachusetts Lowell", "UMass Lowell")
     )
 
   warrennolan_data <- warrennolan_data |>
     dplyr::mutate(
       Team =
-        str_replace_all(Team, "Detroit", "Detroit Mercy")
+        str_replace_all({{Team}}, "Detroit", "Detroit Mercy")
     )
 
   warrennolan_data <- warrennolan_data |>
     dplyr::mutate(
       Team =
-        str_replace_all(Team, "SIUE", "SIU Edwardsville")
+        str_replace_all({{Team}}, "SIUE", "SIU Edwardsville")
     )
 
   warrennolan_data <- warrennolan_data |>
     dplyr::mutate(
       Team =
-        str_replace_all(Team, "Southeast Missouri", "Southeast Missouri St.")
+        str_replace_all({{Team}}, "Southeast Missouri", "Southeast Missouri St.")
     )
 
   warrennolan_data <- warrennolan_data |>
     dplyr::mutate(
       Team =
-        str_replace_all(Team, "UTA", "UT Arlington")
+        str_replace_all({{Team}}, "UTA", "UT Arlington")
     )
 
   warrennolan_data <- warrennolan_data |>
     dplyr::mutate(
       Team =
-        str_replace_all(Team, "South Carolina Upstate", "USC Upstate")
+        str_replace_all({{Team}}, "South Carolina Upstate", "USC Upstate")
     )
 
   warrennolan_data <- warrennolan_data |>
     dplyr::mutate(
       Team =
-        str_replace_all(Team, "UTRGV", "UT Rio Grande Valley")
+        str_replace_all({{Team}}, "UTRGV", "UT Rio Grande Valley")
     )
 
   warrennolan_data <- warrennolan_data |>
     dplyr::mutate(
       Team =
-        str_replace_all(Team, "Nicholls", "Nicholls St.")
+        str_replace_all({{Team}}, "Nicholls", "Nicholls St.")
     )
 
   warrennolan_data <- warrennolan_data |>
     dplyr::mutate(
       Team =
-        str_replace_all(Team, "UIC", "Illinois Chicago")
+        str_replace_all({{Team}}, "UIC", "Illinois Chicago")
     )
 
   warrennolan_data <- warrennolan_data |>
     dplyr::mutate(
       Team =
-        str_replace_all(Team, "ULM", "Louisiana Monroe")
+        str_replace_all({{Team}}, "ULM", "Louisiana Monroe")
     )
 
   warrennolan_data <- warrennolan_data |>
     dplyr::mutate(
       Team =
-        str_replace_all(Team, "Omaha", "Nebraska Omaha")
+        str_replace_all({{Team}}, "Omaha", "Nebraska Omaha")
     )
 
   warrennolan_data <- warrennolan_data |>
     dplyr::mutate(
       Team =
-        str_replace_all(Team, "Loyola Maryland", "Loyola MD")
+        str_replace_all({{Team}}, "Loyola Maryland", "Loyola MD")
     )
 
   warrennolan_data <- warrennolan_data |>
     dplyr::mutate(
       Team =
-        str_replace_all(Team, "McNeese", "McNeese St.")
+        str_replace_all({{Team}}, "McNeese", "McNeese St.")
     )
 
   warrennolan_data <- warrennolan_data |>
     dplyr::mutate(
       Team =
-        str_replace_all(Team, "Presbyterian College", "Presbyterian")
+        str_replace_all({{Team}}, "Presbyterian College", "Presbyterian")
     )
 
   warrennolan_data <- warrennolan_data |>
     dplyr::mutate(
       Team =
-        str_replace_all(Team, "Long Island", "LIU")
+        str_replace_all({{Team}}, "Long Island", "LIU")
     )
 
 
