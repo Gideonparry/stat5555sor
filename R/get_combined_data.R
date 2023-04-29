@@ -8,7 +8,12 @@
 #'
 #'
 #' @param year The year to get the data from. Only worksgit from 2021
-#' @param games_date the cutoff date for the games played.
+#' @param game_date the cutoff date for the games played.
+#' @param away_score The points scored by the away team
+#' @param home_score The points scored by the home team
+#' @param home_net The home team's net rank
+#' @param away_net The away team's net rank
+#' @param neutral 1 if game is at a neutral site, 0 if not
 #'
 #' @returns combined data.
 #'
@@ -23,27 +28,29 @@
 #'
 
 
-get_combined_data <- function(year, games_date, Date = Date,
-                              Home_score = Home_score,
-                              Away_score = Away_score,
-                              away_NET = away_NET,
-                              neutral = neutral,
-                              home_NET = home_NET) {
+get_combined_data <- function(year,
+                              game_date = Date,
+                              home_score = Home_score,
+                              away_score = Away_score,
+                              home_net = home_NET,
+                              away_net = away_NET,
+                              neutral = neutral) {
   kenpom_data <- fetch_and_format_kenpom_data(year)
-  warrennolan_data <- fetch_and_format_warrennolan_data(year)
+  warrennolan_data <- fetch_and_format_wn_data(year)
   combined_data <- combine_datasets(kenpom_data, warrennolan_data)
 
   ## Complete cases drops non d1 opponents
   combined_data <- combined_data[complete.cases(combined_data), ]
 
   ## Dropping games after Selection Sunday
-  combined_data <- subset(combined_data, {{Date}} <= as.Date(games_date))
+  combined_data <- subset(combined_data,
+                          {{game_date}} <= as.Date({{game_date}}))
 
   ## adding home_sor
   combined_data <- combined_data |>
     dplyr::rowwise() |>
     dplyr::mutate(home_sor = sor_points(
-      {{Home_score}}, {{Away_score}}, {{away_NET}},
+      {{home_score}}, {{away_score}}, {{away_net}},
       nrow(warrennolan_data), TRUE, {{neutral}}
     ))
 
@@ -51,8 +58,8 @@ get_combined_data <- function(year, games_date, Date = Date,
   combined_data <- combined_data |>
     dplyr::rowwise() |>
     dplyr::mutate(away_sor = sor_points(
-      Away_score, Home_score, home_NET,
-      nrow(warrennolan_data), FALSE, neutral
+      {{away_score}}, {{home_score}}, {{home_net}},
+      nrow(warrennolan_data), FALSE, {{neutral}}
     ))
 
 

@@ -4,12 +4,48 @@
 \alias{combine_datasets}
 \title{Gets Data from warren nolan}
 \usage{
-combine_datasets(kenpom_data, warrennolan_data)
+combine_datasets(
+  kenpom_data,
+  warrennolan_data,
+  away_team = Away_team,
+  home_team = Home_team,
+  away_score = Away_score,
+  home_score = Home_score,
+  game_date = Date,
+  neutral = neutral,
+  net_rank = "NET Rank",
+  away_net = away_NET,
+  home_net = home_NET,
+  score_diff = score_diff,
+  site = site
+)
 }
 \arguments{
 \item{kenpom_data}{The data from kenpom}
 
 \item{warrennolan_data}{the data from warren nolan}
+
+\item{away_team}{The away team}
+
+\item{home_team}{The home team}
+
+\item{away_score}{The points scored by the away team}
+
+\item{home_score}{The points scored by the home team}
+
+\item{game_date}{the date the game is played}
+
+\item{neutral}{1 if game is at a neutral site, 0 ikf not}
+
+\item{net_rank}{team's NET rank}
+
+\item{away_net}{Away team's NET rank}
+
+\item{home_net}{Home team's NET rank}
+
+\item{score_diff}{game's points differential}
+
+\item{site}{where the game was played}
 }
 \value{
 combined data.

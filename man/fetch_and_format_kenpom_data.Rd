@@ -4,13 +4,18 @@
 \alias{fetch_and_format_kenpom_data}
 \title{Gets Kenpom data and formats it in our usable form}
 \usage{
-fetch_and_format_kenpom_data(year)
+fetch_and_format_kenpom_data(
+  year,
+  away_team = Away_team,
+  home_team = Home_team
+)
 }
 \arguments{
 \item{year}{the year to run obtain the kenmpom data}
-}
-\value{
-Kenpom data of games played
+
+\item{away_team}{The away team}
+
+\item{home_team}{The home team}
 }
 \description{
 Gets Kenpom data and formats it in our usable form

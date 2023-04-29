@@ -6,19 +6,28 @@
 \usage{
 get_combined_data(
   year,
-  games_date,
-  Date = Date,
-  Home_score = Home_score,
-  Away_score = Away_score,
-  away_NET = away_NET,
-  neutral = neutral,
-  home_NET = home_NET
+  game_date = Date,
+  home_score = Home_score,
+  away_score = Away_score,
+  home_net = home_NET,
+  away_net = away_NET,
+  neutral = neutral
 )
 }
 \arguments{
 \item{year}{The year to get the data from. Only worksgit from 2021}
 
-\item{games_date}{the cutoff date for the games played.}
+\item{game_date}{the cutoff date for the games played.}
+
+\item{home_score}{The points scored by the home team}
+
+\item{away_score}{The points scored by the away team}
+
+\item{home_net}{The home team's net rank}
+
+\item{away_net}{The away team's net rank}
+
+\item{neutral}{1 if game is at a neutral site, 0 if not}
 }
 \value{
 combined data.
