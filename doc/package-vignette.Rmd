@@ -37,22 +37,32 @@ In this section, we'll explore how to visualize NCAA basketball data using R. We
 
 The 'sum_sor' function is the master function in this data analysis pipeline. Specifically, it calls all the necessary functions to compute the SOR score for every team. 'The sum_sor' function takes two arguments: year, which is the year for which the data is requested, and games_date, which is the cutoff date for the games played.
 
-Upon calling the 'sum_sor' function, it first runs the 'get_combined_data' function to obtain the data frame with the necessary information about each game. Once that data frame is created and formatted correctly, two new, empty columns are created within the data frame for the SOR change for both the home and away teams.
+Upon calling the 'sum_sor' function, it first runs the 'get_combined_data' function to obtain the data frame with the necessary information about each game. Once that data frame is created and formatted correctly, two new, empty columns are created within that data frame for the SOR change for both the home and away teams.
 
-In order to calculate the SOR score for each game, the function 'sor_points' is then called from within the 'get_combined_data' function and applied to each row twice. This function takes in the team's own score, the opposing team's score, the opposing team's NET ranking, the number of teams in the college basketball season, and the game location as inputs. It returns the strength of record points gained or lost by the home or away team based on whether they won or lost the game. 
+In order to calculate the SOR score for each game, the function 'sor_points' is then called from within the 'get_combined_data' function and applied to each row twice. The 'sor_points' function takes in the team's own score, the opposing team's score, the opposing team's NET ranking, the number of teams in the college basketball season, and the game location as inputs. It returns the strength of record points gained or lost by the home or away team based on whether they won or lost the game. 
 
-At this point in the function, the data frame would look something like this:
+At this point within the 'sum_sor' function, the data frame would look something like this based on the year and date given:
 
-```{r}
+```{r, eval=FALSE}
 test <- get_combined_data(2023, "2023-03-12")
 head(test)
 ```
 
-Finally, the sum_sor function will run two for loops to sum up the SOR scores for each team. The function then creates a new data frame that contains two columns, the name of the team, and their total SOR score. This is the data frame that is returned by the function. 
+```{r, echo=FALSE}
+data("games_2023")
+head(games_2023)
+```
 
-```{r}
+Finally, the sum_sor function will run two for loops to sum up the SOR scores for each team. The function then creates a new data frame that contains three columns, the name of the team, their total SOR score and their SOR ranking.
+
+```{r, eval=FALSE}
 test_sor <- sum_sor(2023, "2023-03-12")
 head(test_sor)
+```
+
+```{r, echo=FALSE}
+data("rankings_2023")
+head(rankings_2023)
 ```
 
 While this function was designed to calculate the Strength of Record for a specific team, the output can also be used to compare the performance of multiple teams over time or to identify trends in team performance. This can also be a useful tool for coaches, analysts, or fans looking to evaluate the success of their team or identify areas for improvement.
