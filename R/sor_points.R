@@ -1,6 +1,6 @@
 #' Gets the sor points for the home team
 #'
-#' This returns the strength of record points for the home team with the
+#' This returns the strength of record points for teams with the
 #' following formula:
 #' points gained in win = ((number of teams worse in NET than team you beat) +
 #'              (10 if neutral or 20 if away)) \ ((number of teams + 19)
