@@ -27,7 +27,6 @@
 #' get_combined_data(2022, "2022-03-13")
 #'
 
-
 get_combined_data <- function(year,
                               game_date = Date,
                               home_score = Home_score,
