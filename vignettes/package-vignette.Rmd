@@ -17,13 +17,11 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup}
+```{r setup, echo = FALSE}
 library(stat5555sor)
 ```
 # Introduction
 
-Introduction
-------------
 
 Welcome to the stat5555sor package vignette! This package is designed to calculate the strength of record (SOR) for college basketball teams in a given season. SOR, or Strength of Record, is a measure of team performance that takes into account the quality of opponents a team has played and the outcomes of those games. By using data from both KenPom and Warren Nolan, the package calculates a custom SOR score for each team based on their game outcomes. The SOR score is calculated using a custom formula that is tailored specifically to college basketball and is designed to provide a more accurate assessment of team strength.
 
@@ -118,6 +116,8 @@ library(ggplot2)
          x = "Year", y = "SOR") +
     theme(plot.title = element_text(size = 16, hjust = 0.5))
 ```
+
+In the graph, we notice an uptick in performance ever since the hiring of Ryan Odom at Utah State as a replacement for Craig Smith who left to join Utah. This suggests that coaching changes can have a significant impact on a team's SOR over time. Interestingly, Ryan Odom recently left Utah State in 2023 to join VCU. If we were to perform this same analysis 2-3 years from then, it would be interesting to see how the SOR of Utah State evolves under a new coach.
 
 # Conclusion
 
