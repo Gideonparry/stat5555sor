@@ -23,7 +23,7 @@ sor_points(score, opp_score, opp_net, number_of_teams, home, neutral = FALSE)
 The strength of record points gained or lost by the home team
 }
 \description{
-This returns the strength of record points for the home team with the
+This returns the strength of record points for teams with the
 following formula:
 points gained in win = ((number of teams worse in NET than team you beat) +
 (10 if neutral or 20 if away)) \ ((number of teams + 19)
